@@ -4,7 +4,6 @@ import omoBPhoto from '@/imports/OMO_b.jpg'
 export default function OriginSection() {
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
-  const [scrollProgress, setScrollProgress] = useState(0)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -14,19 +13,6 @@ export default function OriginSection() {
     if (ref.current) observer.observe(ref.current)
     return () => observer.disconnect()
   }, [])
-
-  useEffect(() => {
-    const onScroll = () => {
-      if (!ref.current) return
-      const rect = ref.current.getBoundingClientRect()
-      const p = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / (window.innerHeight + rect.height * 0.5)))
-      setScrollProgress(p)
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  const owlOpacity = Math.min(1, Math.max(0, (scrollProgress - 0.25) * 4))
 
   return (
     <section

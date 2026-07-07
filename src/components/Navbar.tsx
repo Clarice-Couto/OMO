@@ -24,12 +24,13 @@ export default function Navbar({
   onProducts,
   onRegulation,
   currentPage,
-  onBack,
+  onBack: _onBack,
   onCampaign,
   onHeritage,
 }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false)
   const [activeLink, setActiveLink] = useState('Campanha')
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => {

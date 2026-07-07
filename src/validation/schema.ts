@@ -23,7 +23,7 @@ export const userRegistrationSchema = z.object({
   phone: z.string()
     .regex(/^\d{10,11}$/, "Telefone deve conter entre 10 e 11 dígitos numéricos"),
   termsAccepted: z.literal(true, {
-    errorMap: () => ({ message: "Você deve aceitar os termos da promoção" })
+    message: "Você deve aceitar os termos da promoção"
   })
 });
 

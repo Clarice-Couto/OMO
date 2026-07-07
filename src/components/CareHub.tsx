@@ -92,7 +92,7 @@ export default function CareHub() {
                   }}>
                     <Droplet className="w-5 h-5" />
                   </div>
-                  <span style={{ fontSize: '11px', fontWeight: 800, tracking: 'wider', color: '#0033A0', textTransform: 'uppercase' }}>
+                  <span style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.05em', color: '#0033A0', textTransform: 'uppercase' }}>
                     Dosagem & Diluição
                   </span>
                 </div>
@@ -154,7 +154,7 @@ export default function CareHub() {
                 }}>
                   <Wind className="w-5 h-5" />
                 </div>
-                <span style={{ fontSize: '11px', fontWeight: 800, tracking: 'wider', color: '#0033A0', textTransform: 'uppercase' }}>
+                <span style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.05em', color: '#0033A0', textTransform: 'uppercase' }}>
                   Secagem
                 </span>
               </div>
@@ -214,7 +214,7 @@ export default function CareHub() {
                 }}>
                   <Layers className="w-5 h-5" />
                 </div>
-                <span style={{ fontSize: '11px', fontWeight: 800, tracking: 'wider', color: '#E52320', textTransform: 'uppercase' }}>
+                <span style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.05em', color: '#E52320', textTransform: 'uppercase' }}>
                   Organização
                 </span>
               </div>

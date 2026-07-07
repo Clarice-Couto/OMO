@@ -55,6 +55,17 @@ export default function Navbar({
     return () => window.removeEventListener('scroll', onScroll)
   }, [currentPage])
 
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [menuOpen])
+
   // On hero (blue top): white text. After scroll into white section: blue text.
   const isDark = !scrolled
 
@@ -72,10 +83,9 @@ export default function Navbar({
       borderBottom: scrolled ? '1px solid rgba(0,51,160,0.1)' : 'none',
       boxShadow: scrolled ? '0 2px 24px rgba(0,51,160,0.08)' : 'none',
     }}>
-      <div style={{
+      <div className="nav-container" style={{
         maxWidth: '1200px',
         margin: '0 auto',
-        padding: '0 32px',
         height: '68px',
         display: 'flex',
         alignItems: 'center',
@@ -84,15 +94,12 @@ export default function Navbar({
       }}>
         {/* Left: Unilever logo + OMO wordmark */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexShrink: 0 }}>
-          <div style={{
+          <div className="nav-unilever-logo" style={{
             width: '54px',
             height: '54px',
             borderRadius: '12px',
             overflow: 'hidden',
             background: isDark ? 'transparent' : '#0033A0',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
             flexShrink: 0,
             transition: 'all 0.3s ease',
           }}>
@@ -104,7 +111,7 @@ export default function Navbar({
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
             <OmoWordmark color={isDark ? 'white' : '#0033A0'} />
-            <span style={{
+            <span className="nav-heranca-label" style={{
               fontSize: '13px',
               fontWeight: 700,
               letterSpacing: '0.12em',
@@ -119,8 +126,7 @@ export default function Navbar({
         </div>
 
         {/* Center: floating pill nav */}
-        <nav style={{
-          display: 'flex',
+        <nav className="nav-desktop-pill" style={{
           alignItems: 'center',
           gap: '2px',
           background: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,51,160,0.06)',
@@ -129,9 +135,7 @@ export default function Navbar({
           border: `1px solid ${isDark ? 'rgba(255,255,255,0.18)' : 'rgba(0,51,160,0.12)'}`,
           borderRadius: '100px',
           padding: '5px 6px',
-        }}
-          className="hidden md:flex"
-        >
+        }}>
           {mainLinks.map(link => (
             <button
               key={link.label}
@@ -167,7 +171,7 @@ export default function Navbar({
         {/* Right: CTA & Hamburger */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <button
-            className="btn-red hidden md:block"
+            className="btn-red nav-desktop-btn"
             onClick={onParticipate}
             style={{ padding: '11px 24px', fontSize: '13px', flexShrink: 0 }}
           >
@@ -182,14 +186,11 @@ export default function Navbar({
               border: 'none',
               cursor: 'pointer',
               padding: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
               color: isDark ? 'white' : '#0033A0',
               zIndex: 210,
               transition: 'transform 0.2s ease',
             }}
-            className="md:hidden"
+            className="nav-mobile-hamburger"
             aria-label="Menu"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
@@ -276,6 +277,55 @@ export default function Navbar({
           </div>
         </div>
       )}
+
+      <style>{`
+        .nav-container {
+          padding: 0 32px !important;
+        }
+        .nav-unilever-logo {
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+        }
+        .nav-heranca-label {
+          display: inline-block !important;
+        }
+        .nav-desktop-pill {
+          display: flex !important;
+        }
+        .nav-desktop-btn {
+          display: block !important;
+        }
+        .nav-mobile-hamburger {
+          display: none !important;
+        }
+        @media (max-width: 768px) {
+          .nav-desktop-pill {
+            display: none !important;
+          }
+          .nav-desktop-btn {
+            display: none !important;
+          }
+          .nav-mobile-hamburger {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+          }
+        }
+        @media (max-width: 640px) {
+          .nav-container {
+            padding: 0 16px !important;
+          }
+          .nav-unilever-logo {
+            display: none !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .nav-heranca-label {
+            display: none !important;
+          }
+        }
+      `}</style>
     </header>
   )
 }

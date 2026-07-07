@@ -100,7 +100,7 @@ export default function OriginSection() {
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
           gap: '40px',
           alignItems: 'center',
           textAlign: 'left',
@@ -160,14 +160,15 @@ export default function OriginSection() {
             {/* Timeline */}
             <div style={{
               display: 'flex',
-              gap: '28px',
+              gap: '20px',
+              flexWrap: 'wrap',
             }}>
               {[
                 { year: '1908', label: 'Old Mother Owl', color: '#0033A0' },
                 { year: '1953', label: 'OMO no Brasil', color: '#0033A0' },
                 { year: '2026', label: 'Coleção Herança', color: '#E52320' },
               ].map((item, i) => (
-                <div key={i}>
+                <div key={i} style={{ minWidth: '100px', flex: '1 1 0px' }}>
                   <div style={{
                     fontSize: '22px',
                     fontWeight: 900,

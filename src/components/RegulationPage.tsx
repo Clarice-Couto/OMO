@@ -112,7 +112,7 @@ export default function RegulationPage({ onParticipate }: RegulationPageProps) {
         </div>
 
         {/* Regulation Items List */}
-        <div style={{
+        <div className="regulation-card" style={{
           display: 'flex',
           flexDirection: 'column',
           gap: '32px',
@@ -175,6 +175,12 @@ export default function RegulationPage({ onParticipate }: RegulationPageProps) {
           )}
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 640px) {
+          .regulation-card { padding: 28px 20px !important; }
+        }
+      `}</style>
     </div>
   )
 }

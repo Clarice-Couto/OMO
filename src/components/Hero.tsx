@@ -132,16 +132,16 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
             Mais de um século de cuidado e tradição numa embalagem que conta a história de quem somos, a linhagem que atravessa gerações.
           </p>
 
-          <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
+          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
             <button
-              className="btn-red"
+              className="btn-red w-full sm:w-auto"
               onClick={onParticipate}
               style={{ padding: '17px 36px', fontSize: '15px' }}
             >
               Participar Agora →
             </button>
             <button
-              className="btn-white"
+              className="btn-white w-full sm:w-auto"
               onClick={onProducts}
               style={{ padding: '17px 32px', fontSize: '15px' }}
             >
@@ -150,19 +150,13 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
           </div>
 
           {/* Stats */}
-          <div style={{
-            display: 'flex',
-            gap: '36px',
-            marginTop: '56px',
-            paddingTop: '36px',
-            borderTop: '1px solid rgba(255,255,255,0.1)',
-          }}>
+          <div className="flex justify-between sm:justify-start gap-4 sm:gap-9 mt-14 pt-9 border-t border-[rgba(255,255,255,0.1)] flex-wrap">
             {[
               { value: '70+', label: 'anos de história' },
               { value: '25M', label: 'lares atendidos' },
               { value: '#1', label: 'no Brasil' },
             ].map(stat => (
-              <div key={stat.value}>
+              <div key={stat.value} style={{ minWidth: '80px' }}>
                 <div style={{
                   fontSize: 'clamp(20px, 2.5vw, 28px)',
                   fontWeight: 900,

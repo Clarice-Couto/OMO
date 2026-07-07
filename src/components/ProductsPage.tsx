@@ -68,7 +68,7 @@ export default function ProductsPage({ onParticipate }: ProductsPageProps) {
           maxWidth: '1100px',
           margin: '0 auto',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
           gap: '40px',
           alignItems: 'center',
           position: 'relative',
@@ -135,14 +135,14 @@ export default function ProductsPage({ onParticipate }: ProductsPageProps) {
       </div>
 
       {/* Products side-by-side */}
-      <div style={{
+      <div className="products-section" style={{
         maxWidth: '1100px',
         margin: '0 auto',
         padding: '80px 32px',
       }}>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
           gap: '24px',
           marginBottom: '80px',
         }}>
@@ -162,7 +162,7 @@ export default function ProductsPage({ onParticipate }: ProductsPageProps) {
         </div>
 
         {/* Fragrance section */}
-        <div style={{
+        <div className="fragrance-card-wrapper" style={{
           background: '#fff',
           borderRadius: '24px',
           border: '1px solid rgba(0,51,160,0.08)',
@@ -172,7 +172,7 @@ export default function ProductsPage({ onParticipate }: ProductsPageProps) {
         }}>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
             gap: '32px',
             alignItems: 'center',
           }}>
@@ -227,6 +227,10 @@ export default function ProductsPage({ onParticipate }: ProductsPageProps) {
         @media (max-width: 768px) {
           .hero-grid { grid-template-columns: 1fr !important; text-align: center !important; }
           .hero-grid > div { text-align: center !important; }
+        }
+        @media (max-width: 640px) {
+          .products-section { padding: 48px 16px !important; }
+          .fragrance-card-wrapper { padding: 32px 20px !important; }
         }
       `}</style>
     </div>

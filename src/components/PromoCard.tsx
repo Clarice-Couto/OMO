@@ -246,14 +246,14 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
                 transition: 'transform 600ms cubic-bezier(0.25, 1, 0.5, 1)',
               }}>
                 {/* Panel 0: User registration & Terms */}
-                <div style={{ width: '25%', padding: '40px 48px', flexShrink: 0 }}>
+                <div className="promo-card-panel">
                   <StepLabel step={1} total={3} />
                   <h3 style={cardHeadStyle}>Identificação e Contato</h3>
                   <p style={cardBodyStyle}>
                     Preencha seus dados para garantir a conformidade da sua inscrição.
                   </p>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+                  <div className="responsive-input-grid mb-4">
                     <div>
                       <label style={labelStyle}>Nome Completo</label>
                       <input
@@ -279,7 +279,7 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
                     </div>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
+                  <div className="responsive-input-grid mb-6">
                     <div>
                       <label style={labelStyle}>CPF</label>
                       <input
@@ -338,7 +338,7 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
                 </div>
 
                 {/* Panel 1: Invoice Validation */}
-                <div style={{ width: '25%', padding: '40px 48px', flexShrink: 0 }}>
+                <div className="promo-card-panel">
                   <StepLabel step={2} total={3} />
                   <h3 style={cardHeadStyle}>Validação da Nota Fiscal</h3>
                   <p style={cardBodyStyle}>
@@ -449,7 +449,7 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
                 </div>
 
                 {/* Panel 2: Story */}
-                <div style={{ width: '25%', padding: '40px 48px', flexShrink: 0 }}>
+                <div className="promo-card-panel">
                   <StepLabel step={3} total={3} />
                   <h3 style={cardHeadStyle}>Sua história de cuidado</h3>
                   <p style={cardBodyStyle}>
@@ -489,7 +489,7 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
                 </div>
 
                 {/* Panel 3: Success */}
-                <div style={{ width: '25%', padding: '40px 48px', flexShrink: 0, textAlign: 'center' }}>
+                <div className="promo-card-panel text-center" style={{ textAlign: 'center' }}>
                   <div style={{ marginBottom: '28px', display: 'flex', justifyContent: 'center' }}>
                     <SuccessCheck />
                   </div>
@@ -567,9 +567,29 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
           60% { transform: translateX(-4px); }
           80% { transform: translateX(4px); }
         }
+        .promo-card-panel {
+          width: 25%;
+          padding: 40px 48px;
+          flex-shrink: 0;
+          box-sizing: border-box;
+        }
+        .responsive-input-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+        }
         @media (max-width: 900px) {
           .promo-grid { grid-template-columns: 1fr !important; }
           .promo-sidebar { width: 100% !important; flex-direction: row !important; flex-wrap: wrap; }
+        }
+        @media (max-width: 640px) {
+          .promo-card-panel {
+            padding: 28px 20px !important;
+          }
+          .responsive-input-grid {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
         }
       `}</style>
     </section>

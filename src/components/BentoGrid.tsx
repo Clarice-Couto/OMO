@@ -137,7 +137,13 @@ export default function BentoGrid() {
 
       <style>{`
         @media (max-width: 768px) {
-          .bento-card { grid-column: 1 / span 12 !important; }
+          .bento-card {
+            grid-column: 1 / span 12 !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 20px !important;
+            padding: 24px !important;
+          }
         }
       `}</style>
     </section>

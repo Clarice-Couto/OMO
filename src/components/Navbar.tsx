@@ -167,7 +167,7 @@ export default function Navbar({
         {/* Right: CTA & Hamburger */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <button
-            className="btn-red hidden sm:block"
+            className="btn-red hidden md:block"
             onClick={onParticipate}
             style={{ padding: '11px 24px', fontSize: '13px', flexShrink: 0 }}
           >

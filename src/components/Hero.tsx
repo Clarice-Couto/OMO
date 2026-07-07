@@ -132,7 +132,7 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
             Mais de um século de cuidado e tradição numa embalagem que conta a história de quem somos, a linhagem que atravessa gerações.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto" style={{ marginBottom: '16px' }}>
             <button
               className="btn-red w-full sm:w-auto"
               onClick={onParticipate}
@@ -150,7 +150,14 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
           </div>
 
           {/* Stats */}
-          <div className="flex justify-between sm:justify-start gap-4 sm:gap-9 mt-14 pt-9 border-t border-[rgba(255,255,255,0.1)] flex-wrap">
+          <div className="flex-wrap" style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            gap: '24px 36px',
+            marginTop: '56px',
+            paddingTop: '32px',
+            borderTop: '1px solid rgba(255,255,255,0.12)',
+          }}>
             {[
               { value: '70+', label: 'anos de história' },
               { value: '25M', label: 'lares atendidos' },

@@ -112,5 +112,3 @@ dist/
 *.sln
 *.sw?
 
-# Figma Make app temporary/config files
-.figma/

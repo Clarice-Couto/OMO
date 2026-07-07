@@ -1,0 +1,10 @@
+{
+  "description": "Engage users with an interactive promotional landing page for OMO's Herança campaign, featuring sleek design and storytelling elements that enhance brand connection.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

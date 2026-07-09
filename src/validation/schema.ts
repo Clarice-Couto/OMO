@@ -39,7 +39,23 @@ export const storyValidationSchema = z.object({
     .transform(sanitizeString)
 });
 
+// Zod schema for validating the video file upload (Frontend + Backend validation logic)
+export const videoValidationSchema = z.object({
+  videoFile: z.custom<File>((val) => val instanceof File, "Arquivo inválido")
+    .refine((file) => ['video/mp4', 'video/quicktime', 'video/webm'].includes(file.type) || file.name.endsWith('.mp4') || file.name.endsWith('.mov') || file.name.endsWith('.webm'), {
+      message: "Formato de vídeo inválido. Aceitamos apenas .mp4, .mov ou .webm."
+    })
+    .refine((file) => file.size <= 50 * 1024 * 1024, {
+      message: "O vídeo excede o limite máximo de 50MB."
+    })
+    .optional(),
+  videoUrl: z.string()
+    .url("URL de armazenamento inválida")
+    .optional()
+});
+
 // Combined schema for complete database submission
 export const completeParticipationSchema = userRegistrationSchema
   .merge(invoiceValidationSchema)
-  .merge(storyValidationSchema);
+  .merge(storyValidationSchema)
+  .merge(videoValidationSchema);

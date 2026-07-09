@@ -15,7 +15,7 @@ const regulationItems = [
   },
   {
     title: '3. Como Participar',
-    content: 'Adquira qualquer produto da linha OMO Herança (Pó 1,6kg ou Líquido 3L), localize o código interno na embalagem e insira no site oficial. Complete o relato de memória afetiva (mínimo 20 caracteres).',
+    content: 'Adquira qualquer produto da linha OMO Herança (Pó 1,6kg ou Líquido 3L), localize o código interno na embalagem e insira no site oficial. Complete o relato de memória afetiva (mínimo 20 caracteres) ou faça o upload de sua história em formato de vídeo de até 1 minuto.',
   },
   {
     title: '4. Objetivo da Ação',
@@ -33,19 +33,18 @@ export default function RegulationPage({ onParticipate }: RegulationPageProps) {
   const handleDownloadPDF = () => {
     setDownloaded(true)
     setTimeout(() => setDownloaded(false), 2000)
-    // In a real application, this would download a PDF file.
     alert('Download do PDF do Regulamento iniciado com sucesso!')
   }
 
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(180deg, #f4f7ff 0%, #ffffff 40%, #f8fbff 100%)',
+      background: 'linear-gradient(180deg, #FFFFF0 0%, #FAF6E6 40%, #F5E5BE 100%)',
       paddingTop: '0px',
     }}>
       {/* Hero bar */}
       <div style={{
-        background: 'linear-gradient(135deg, #001f6b 0%, #0033A0 50%, #0055cc 100%)',
+        background: 'linear-gradient(135deg, #111934 0%, #1c2850 50%, #293d7c 100%)',
         padding: '120px 24px 60px',
         position: 'relative',
         overflow: 'hidden',
@@ -63,20 +62,20 @@ export default function RegulationPage({ onParticipate }: RegulationPageProps) {
           zIndex: 2,
           textAlign: 'center',
         }}>
-          <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.65)', marginBottom: '16px' }}>
+          <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,240,0.65)', marginBottom: '16px' }}>
             Transparência & Informação
           </div>
           <h1 style={{
             fontSize: 'clamp(32px, 4.5vw, 48px)',
             fontWeight: 900,
             letterSpacing: '-0.04em',
-            color: '#fff',
+            color: '#FFFFF0',
             lineHeight: 1.15,
             marginBottom: '16px',
           }}>
             Regulamento da Campanha
           </h1>
-          <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.65)', marginBottom: '0px', lineHeight: 1.6 }}>
+          <p style={{ fontSize: '16px', color: 'rgba(255,255,240,0.75)', marginBottom: '0px', lineHeight: 1.6 }}>
             Consulte as regras gerais de elegibilidade, prazos e diretrizes de proteção de dados para participar da campanha OMO Herança.
           </p>
         </div>
@@ -116,22 +115,22 @@ export default function RegulationPage({ onParticipate }: RegulationPageProps) {
           display: 'flex',
           flexDirection: 'column',
           gap: '32px',
-          background: '#fff',
+          background: '#FFFFF0',
           borderRadius: '24px',
-          border: '1px solid rgba(0,51,160,0.07)',
+          border: '1.5px solid #111934',
           padding: '40px 48px',
-          boxShadow: '0 4px 40px rgba(0,51,160,0.04)',
+          boxShadow: '0 4px 40px rgba(17,25,52,0.04)',
           marginBottom: '44px',
         }}>
           {regulationItems.map((item, index) => (
             <div key={index} style={{
-              borderBottom: index < regulationItems.length - 1 ? '1px solid rgba(0,51,160,0.08)' : 'none',
+              borderBottom: index < regulationItems.length - 1 ? '1px solid rgba(17,25,52,0.12)' : 'none',
               paddingBottom: index < regulationItems.length - 1 ? '28px' : '0px',
             }}>
               <h2 style={{
                 fontSize: '18px',
                 fontWeight: 800,
-                color: '#0033A0',
+                color: '#111934',
                 marginBottom: '12px',
                 letterSpacing: '-0.025em',
               }}>
@@ -139,7 +138,7 @@ export default function RegulationPage({ onParticipate }: RegulationPageProps) {
               </h2>
               <p style={{
                 fontSize: '14.5px',
-                color: 'rgba(0,19,64,0.6)',
+                color: 'rgba(17,25,52,0.7)',
                 lineHeight: 1.8,
                 letterSpacing: '-0.01em',
               }}>
@@ -159,7 +158,7 @@ export default function RegulationPage({ onParticipate }: RegulationPageProps) {
           <button 
             className="btn-blue" 
             onClick={handleDownloadPDF} 
-            style={{ padding: '16px 32px', fontSize: '14px', minWidth: '200px' }}
+            style={{ padding: '16px 32px', fontSize: '14px', minWidth: '200px', cursor: 'pointer' }}
           >
             {downloaded ? 'Baixando PDF...' : 'Baixar Regulamento PDF'}
           </button>
@@ -168,7 +167,7 @@ export default function RegulationPage({ onParticipate }: RegulationPageProps) {
             <button 
               className="btn-red" 
               onClick={onParticipate} 
-              style={{ padding: '16px 36px', fontSize: '14px', minWidth: '200px' }}
+              style={{ padding: '16px 36px', fontSize: '14px', minWidth: '200px', cursor: 'pointer' }}
             >
               Quero Participar Agora →
             </button>

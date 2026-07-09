@@ -12,7 +12,7 @@ type ProductsPageProps = {
 type Fragrance = { name: string; notes: string; color: string; textColor: string }
 
 const fragrances: Fragrance[] = [
-  { name: 'Cheirinho de Cuidado', notes: 'Toque de carinho, conexão familiar e memórias afetuosas', color: '#f0f4ff', textColor: '#0033A0' }
+  { name: 'Cheirinho de Cuidado', notes: 'Toque de carinho, conexão familiar e memórias afetuosas', color: '#FAF6E6', textColor: '#111934' }
 ]
 
 const productsData = [
@@ -21,7 +21,7 @@ const productsData = [
     subtitle: "1,6 kg · Cuidado Clássico",
     description: "A clássica e insubstituível limpeza profunda que acompanha gerações, removendo manchas difíceis sem agredir os tecidos.",
     badge: "Tradição",
-    badgeColor: "#0033A0",
+    badgeColor: "#111934",
     image: omoProduct
   },
   {
@@ -48,12 +48,12 @@ export default function ProductsPage({ onParticipate }: ProductsPageProps) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(180deg, #f4f7ff 0%, #ffffff 40%, #f8fbff 100%)',
+      background: 'linear-gradient(180deg, #FFFFF0 0%, #FAF6E6 40%, #F5E5BE 100%)',
       paddingTop: '0px',
     }}>
       {/* Hero bar */}
       <div style={{
-        background: 'linear-gradient(135deg, #001f6b 0%, #0033A0 50%, #0055cc 100%)',
+        background: 'linear-gradient(135deg, #111934 0%, #1c2850 50%, #293d7c 100%)',
         padding: '120px 24px 60px',
         position: 'relative',
         overflow: 'hidden',
@@ -76,14 +76,14 @@ export default function ProductsPage({ onParticipate }: ProductsPageProps) {
         }}>
           {/* Left: Text & CTA */}
           <div style={{ textAlign: 'left' }}>
-            <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', marginBottom: '16px' }}>
+            <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,240,0.6)', marginBottom: '16px' }}>
               Portfólio Exclusivo
             </div>
             <h1 style={{
               fontSize: 'clamp(32px, 4.5vw, 54px)',
               fontWeight: 900,
               letterSpacing: '-0.04em',
-              color: '#fff',
+              color: '#FFFFF0',
               lineHeight: 1.1,
               marginBottom: '16px',
             }}>
@@ -97,10 +97,10 @@ export default function ProductsPage({ onParticipate }: ProductsPageProps) {
                 Herança
               </span>
             </h1>
-            <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.65)', marginBottom: '32px', lineHeight: 1.65, maxWidth: '460px' }}>
+            <p style={{ fontSize: '16px', color: 'rgba(255,255,240,0.75)', marginBottom: '32px', lineHeight: 1.65, maxWidth: '460px' }}>
               Três versões de cuidado com a mesma tradição de carinho, conectadas pela nossa fragrância exclusiva que desperta memórias de afeto.
             </p>
-            <button className="btn-red" onClick={onParticipate} style={{ padding: '15px 36px', fontSize: '14px' }}>
+            <button className="btn-red" onClick={onParticipate} style={{ padding: '15px 36px', fontSize: '14px', cursor: 'pointer' }}>
               Participar da Campanha →
             </button>
           </div>
@@ -109,8 +109,8 @@ export default function ProductsPage({ onParticipate }: ProductsPageProps) {
           <div style={{
             borderRadius: '24px',
             overflow: 'hidden',
-            boxShadow: '0 24px 60px rgba(0,0,0,0.3)',
-            border: '1.5px solid rgba(255,255,255,0.12)',
+            boxShadow: '0 24px 60px rgba(17,25,52,0.15)',
+            border: '1.5px solid #FFFFF0',
             position: 'relative',
           }}>
             <img 
@@ -120,9 +120,9 @@ export default function ProductsPage({ onParticipate }: ProductsPageProps) {
             />
             <div style={{
               position: 'absolute', bottom: 0, left: 0, right: 0,
-              background: 'linear-gradient(0deg, rgba(0,19,64,0.85) 0%, transparent 100%)',
+              background: 'linear-gradient(0deg, rgba(17,25,52,0.85) 0%, transparent 100%)',
               padding: '16px 20px',
-              color: '#fff',
+              color: '#FFFFF0',
               fontSize: '11px',
               fontWeight: 700,
               letterSpacing: '0.06em',
@@ -163,11 +163,11 @@ export default function ProductsPage({ onParticipate }: ProductsPageProps) {
 
         {/* Fragrance section */}
         <div className="fragrance-card-wrapper" style={{
-          background: '#fff',
+          background: '#FFFFF0',
           borderRadius: '24px',
-          border: '1px solid rgba(0,51,160,0.08)',
+          border: '1.5px solid #111934',
           padding: '48px',
-          boxShadow: '0 4px 40px rgba(0,51,160,0.06)',
+          boxShadow: '0 4px 40px rgba(17,25,52,0.04)',
           marginBottom: '60px',
         }}>
           <div style={{
@@ -180,40 +180,40 @@ export default function ProductsPage({ onParticipate }: ProductsPageProps) {
               <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#E52320', marginBottom: '12px' }}>
                 Fragrância de Conexão
               </div>
-              <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.035em', color: '#001240', marginBottom: '16px', lineHeight: 1.25 }}>
+              <h2 style={{ fontSize: '28px', fontWeight: 800, letterSpacing: '-0.035em', color: '#111934', marginBottom: '16px', lineHeight: 1.25 }}>
                 Cheirinho de Cuidado
               </h2>
-              <p style={{ fontSize: '14px', color: 'rgba(0,19,64,0.55)', lineHeight: 1.6 }}>
+              <p style={{ fontSize: '14px', color: 'rgba(17,25,52,0.7)', lineHeight: 1.6 }}>
                 Criado especialmente para a Coleção Herança, este perfume combina notas clássicas com acordes reconfortantes que resgatam memórias de carinho e a união entre gerações de famílias brasileiras.
               </p>
             </div>
 
             <div
               style={{
-                background: '#f0f4ff',
+                background: '#FAF6E6',
                 borderRadius: '20px',
                 padding: '24px 32px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '20px',
-                border: `1.5px dashed rgba(0,51,160,0.15)`,
+                border: `1.5px dashed #111934`,
               }}
             >
               <div style={{
                 width: '56px', height: '56px',
                 borderRadius: '50%',
-                background: 'rgba(0,51,160,0.08)',
-                border: '2px solid rgba(0,51,160,0.15)',
+                background: 'rgba(17,25,52,0.05)',
+                border: '2px solid rgba(17,25,52,0.15)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: '24px', flexShrink: 0,
               }}>
                 ❤️
               </div>
               <div>
-                <div style={{ fontSize: '18px', fontWeight: 800, color: '#0033A0', letterSpacing: '-0.02em', marginBottom: '4px' }}>
+                <div style={{ fontSize: '18px', fontWeight: 800, color: '#111934', letterSpacing: '-0.02em', marginBottom: '4px' }}>
                   Cheirinho de Cuidado
                 </div>
-                <div style={{ fontSize: '13px', color: 'rgba(0,51,160,0.6)', letterSpacing: '0.02em', fontWeight: 500 }}>
+                <div style={{ fontSize: '13px', color: 'rgba(17,25,52,0.6)', letterSpacing: '0.02em', fontWeight: 650 }}>
                   Toque de carinho, conexão familiar e memórias afetuosas
                 </div>
               </div>
@@ -260,7 +260,7 @@ function ProductCard({
 
   const bg = (activeFrag !== null && activeFrag >= 0 && fragrances[activeFrag])
     ? fragrances[activeFrag].color
-    : (hovered ? '#f0f4ff' : '#fff')
+    : (hovered ? '#F5E5BE' : '#FFFFF0')
 
   return (
     <div
@@ -268,10 +268,10 @@ function ProductCard({
       onMouseLeave={() => setHovered(false)}
       style={{
         background: bg,
-        border: `1.5px solid ${hovered ? 'rgba(0,51,160,0.2)' : 'rgba(0,51,160,0.08)'}`,
+        border: `1.5px solid ${hovered ? '#E52320' : '#111934'}`,
         borderRadius: '24px',
         overflow: 'hidden',
-        boxShadow: hovered ? '0 16px 60px rgba(0,51,160,0.12)' : '0 4px 24px rgba(0,51,160,0.06)',
+        boxShadow: hovered ? '0 16px 60px rgba(17,25,52,0.12)' : '0 4px 24px rgba(17,25,52,0.04)',
         transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
         transform: hovered ? 'translateY(-4px)' : 'none',
         display: 'flex',
@@ -280,7 +280,7 @@ function ProductCard({
     >
       {/* Image area */}
       <div style={{
-        background: `linear-gradient(135deg, ${bg} 0%, #e8efff 100%)`,
+        background: `linear-gradient(135deg, ${bg} 0%, #FAF6E6 100%)`,
         padding: '32px',
         display: 'flex',
         justifyContent: 'center',
@@ -294,7 +294,7 @@ function ProductCard({
           style={{
             height: '180px',
             objectFit: 'contain',
-            filter: `drop-shadow(0 12px 28px rgba(0,51,160,0.15))`,
+            filter: `drop-shadow(0 12px 28px rgba(17,25,52,0.1))`,
             transform: hovered ? 'scale(1.06) translateY(-4px)' : 'none',
             transition: 'transform 0.4s cubic-bezier(0.4,0,0.2,1)',
           }}
@@ -325,20 +325,20 @@ function ProductCard({
               {badge}
             </div>
           </div>
-          <h3 style={{ fontSize: '20px', fontWeight: 800, letterSpacing: '-0.03em', color: '#001240', marginBottom: '4px' }}>
+          <h3 style={{ fontSize: '20px', fontWeight: 800, letterSpacing: '-0.03em', color: '#111934', marginBottom: '4px' }}>
             {title}
           </h3>
-          <div style={{ fontSize: '12px', color: 'rgba(0,51,160,0.5)', marginBottom: '16px' }}>
+          <div style={{ fontSize: '12px', color: 'rgba(17,25,52,0.55)', marginBottom: '16px', fontWeight: 600 }}>
             {subtitle}
           </div>
-          <p style={{ fontSize: '14px', color: 'rgba(0,19,64,0.55)', lineHeight: 1.7, marginBottom: '24px' }}>
+          <p style={{ fontSize: '14px', color: 'rgba(17,25,52,0.7)', lineHeight: 1.7, marginBottom: '24px' }}>
             {description}
           </p>
         </div>
 
         {/* Fragrance picker mini */}
         <div>
-          <div style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(0,51,160,0.4)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '10px' }}>
+          <div style={{ fontSize: '11px', fontWeight: 650, color: 'rgba(17,25,52,0.5)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '10px' }}>
             Fragrância
           </div>
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
@@ -352,7 +352,7 @@ function ProductCard({
                   height: '28px',
                   borderRadius: '50%',
                   background: f.color,
-                  border: `2px solid ${activeFrag === i ? f.textColor : 'rgba(0,51,160,0.2)'}`,
+                  border: `2px solid ${activeFrag === i ? '#111934' : 'rgba(17,25,52,0.2)'}`,
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
                   transform: activeFrag === i ? 'scale(1.15)' : 'none',
@@ -366,7 +366,7 @@ function ProductCard({
                 ❤️
               </div>
             ))}
-            <span style={{ fontSize: '12px', color: 'rgba(0,51,160,0.6)', fontWeight: 500 }}>
+            <span style={{ fontSize: '12px', color: 'rgba(17,25,52,0.6)', fontWeight: 600 }}>
               {fragrances[0].name}
             </span>
           </div>

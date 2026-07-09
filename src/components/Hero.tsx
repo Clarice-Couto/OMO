@@ -32,15 +32,15 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
         paddingBottom: '60px',
       }}
     >
-      {/* Deep blue hero bg */}
+      {/* Cream/Ivory to warm transition background */}
       <div style={{
         position: 'absolute',
         inset: 0,
-        background: 'linear-gradient(160deg, #001f6b 0%, #0033A0 35%, #0055cc 65%, #3377e8 85%, transparent 100%)',
+        background: 'linear-gradient(160deg, #FFFFF0 0%, #FAF6E6 40%, #F5E5BE 75%, #FFFFF0 100%)',
         zIndex: 0,
       }} />
 
-      {/* Decorative rings */}
+      {/* Decorative rings (now styled in subtle Navy Blue) */}
       <div style={{
         position: 'absolute',
         inset: 0,
@@ -53,7 +53,7 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
           width: '700px',
           height: '700px',
           borderRadius: '50%',
-          border: '1px solid rgba(255,255,255,0.07)',
+          border: '1.5px solid rgba(17, 25, 52, 0.04)',
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
@@ -63,7 +63,7 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
           width: '500px',
           height: '500px',
           borderRadius: '50%',
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1.5px solid rgba(17, 25, 52, 0.03)',
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
@@ -73,10 +73,10 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
           width: '300px',
           height: '300px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(229,35,32,0.12) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(229,35,32,0.06) 0%, transparent 70%)',
           top: '25%',
           right: '10%',
-          filter: 'blur(40px)',
+          filter: 'blur(45px)',
         }} />
       </div>
 
@@ -99,7 +99,6 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
       >
         {/* Left: Copy */}
         <div>
-
           <h1 style={{
             fontSize: 'clamp(36px, 5.5vw, 72px)',
             fontWeight: 900,
@@ -110,11 +109,11 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
           }}>
             <span className="text-blue-gradient">Limpeza que</span>
             <br />
-            <span style={{ color: 'rgba(255,255,255,0.95)' }}>você vê.</span>
+            <span style={{ color: '#111934' }}>você vê.</span>
             <br />
             <span className="text-blue-gradient" style={{ opacity: 0.8 }}>Perfume que</span>
             <br />
-            <span style={{ color: 'rgba(255,255,255,0.9)' }}>você sente.</span>
+            <span style={{ color: '#111934' }}>você sente.</span>
             <br />
             <span className="text-red-gradient">História que</span>
             <br />
@@ -123,7 +122,7 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
 
           <p style={{
             fontSize: 'clamp(15px, 1.6vw, 18px)',
-            color: 'rgba(255,255,255,0.6)',
+            color: 'rgba(17, 25, 52, 0.7)',
             lineHeight: 1.7,
             marginBottom: '44px',
             maxWidth: '480px',
@@ -136,14 +135,14 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
             <button
               className="btn-red w-full sm:w-auto"
               onClick={onParticipate}
-              style={{ padding: '17px 36px', fontSize: '15px' }}
+              style={{ padding: '17px 36px', fontSize: '15px', cursor: 'pointer' }}
             >
               Participar Agora →
             </button>
             <button
               className="btn-white w-full sm:w-auto"
               onClick={onProducts}
-              style={{ padding: '17px 32px', fontSize: '15px' }}
+              style={{ padding: '17px 32px', fontSize: '15px', cursor: 'pointer' }}
             >
               Conhecer a Linha Completa
             </button>
@@ -156,7 +155,7 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
             gap: '24px 36px',
             marginTop: '56px',
             paddingTop: '32px',
-            borderTop: '1px solid rgba(255,255,255,0.12)',
+            borderTop: '1px solid rgba(17, 25, 52, 0.15)',
           }}>
             {[
               { value: '70+', label: 'anos de história' },
@@ -168,13 +167,13 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
                   fontSize: 'clamp(20px, 2.5vw, 28px)',
                   fontWeight: 900,
                   letterSpacing: '-0.04em',
-                  color: '#fff',
+                  color: '#111934',
                   lineHeight: 1,
                   marginBottom: '4px',
                 }}>
                   {stat.value}
                 </div>
-                <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.04em' }}>
+                <div style={{ fontSize: '12px', color: 'rgba(17, 25, 52, 0.55)', letterSpacing: '0.04em', fontWeight: 600 }}>
                   {stat.label}
                 </div>
               </div>
@@ -189,7 +188,8 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
             borderRadius: '20px',
             overflow: 'hidden',
             position: 'relative',
-            boxShadow: '0 24px 80px rgba(0,0,0,0.35)',
+            boxShadow: '0 24px 80px rgba(17, 25, 52, 0.08)',
+            border: '1.5px solid #111934',
           }}
             className="animate-float"
           >
@@ -209,10 +209,10 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
               bottom: 0,
               left: 0,
               right: 0,
-              background: 'linear-gradient(0deg, rgba(0,19,64,0.85) 0%, transparent 100%)',
+              background: 'linear-gradient(0deg, rgba(17, 25, 52, 0.85) 0%, transparent 100%)',
               padding: '24px 20px 16px',
             }}>
-              <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              <div style={{ fontSize: '11px', color: 'rgba(255, 255, 240, 0.85)', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 700 }}>
                 Momentos de Cuidado · 2026
               </div>
             </div>
@@ -225,7 +225,7 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
             alignItems: 'stretch',
           }}>
             <div
-              className="glass-dark animate-float-delay"
+              className="glass-light animate-float-delay"
               style={{
                 borderRadius: '20px',
                 overflow: 'hidden',
@@ -234,7 +234,8 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 padding: '12px',
-                boxShadow: '0 16px 50px rgba(0,0,0,0.3)',
+                boxShadow: '0 16px 50px rgba(17, 25, 52, 0.05)',
+                border: '1.5px solid #111934',
               }}
             >
               <img
@@ -249,43 +250,45 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
               />
             </div>
 
-            <div className="glass-dark" style={{
+            <div className="glass-light" style={{
               flex: 1,
               borderRadius: '20px',
               padding: '20px',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
+              border: '1.5px solid #111934',
+              boxShadow: '0 16px 50px rgba(17, 25, 52, 0.05)',
             }}>
               <div>
                 <div style={{
                   display: 'inline-block',
-                  background: 'rgba(229,35,32,0.2)',
-                  border: '1px solid rgba(229,35,32,0.3)',
+                  background: 'rgba(229,35,32,0.1)',
+                  border: '1px solid rgba(229,35,32,0.2)',
                   borderRadius: '100px',
                   padding: '3px 12px',
                   fontSize: '10px',
                   fontWeight: 700,
-                  color: '#ff9e9c',
+                  color: '#E52320',
                   letterSpacing: '0.08em',
                   textTransform: 'uppercase',
                   marginBottom: '10px',
                 }}>
                   Coleção OMO Herança
                 </div>
-                <div style={{ fontSize: '15px', fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.3, marginBottom: '6px' }}>
+                <div style={{ fontSize: '15px', fontWeight: 800, color: '#111934', letterSpacing: '-0.02em', lineHeight: 1.3, marginBottom: '6px' }}>
                   OMO Lavagem
                   <br />
                   Perfeita
                 </div>
-                <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>
+                <div style={{ fontSize: '12px', color: 'rgba(17, 25, 52, 0.55)', fontWeight: 600 }}>
                   Ativo Concentrado
                 </div>
               </div>
               <button
                 className="btn-red"
                 onClick={onProducts}
-                style={{ padding: '10px 16px', fontSize: '12px', marginTop: '12px' }}
+                style={{ padding: '10px 16px', fontSize: '12px', marginTop: '12px', cursor: 'pointer' }}
               >
                 Conhecer a Linha →
               </button>
@@ -307,12 +310,12 @@ export default function Hero({ onParticipate, onProducts }: HeroProps) {
         zIndex: 3,
         opacity: parallaxFade * 0.7,
       }}>
-        <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+        <span style={{ fontSize: '10px', color: 'rgba(17, 25, 52, 0.55)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700 }}>
           Rolar
         </span>
         <div style={{
           width: '22px', height: '36px',
-          border: '1.5px solid rgba(255,255,255,0.25)',
+          border: '1.5px solid rgba(17, 25, 52, 0.3)',
           borderRadius: '11px',
           display: 'flex', justifyContent: 'center', paddingTop: '6px',
         }}>

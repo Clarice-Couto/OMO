@@ -11,8 +11,8 @@ const features = [
     full: 'As microcápsulas são minúsculas esferas que ficam aderidas às fibras do tecido. Quando há atrito, como ao sentar ou abraçar alguém, elas se rompem e liberam a fragrância de forma progressiva. O resultado é uma roupa que cheira bem por até 72 horas após a lavagem, mantendo a sensação de frescor duradouro ao longo de todo o dia.',
     icon: <MicrocapsuleIcon />,
     span: 'col-span-7',
-    accentBg: 'linear-gradient(135deg, #f0f4ff 0%, #e0ecff 100%)',
-    accentColor: '#0033A0',
+    accentBg: 'linear-gradient(135deg, #FFFFF0 0%, #F5E5BE 100%)',
+    accentColor: '#111934',
   },
   {
     id: 1 as FeatureId,
@@ -33,8 +33,8 @@ const features = [
     full: 'Inspirada em mais de 70 anos de pesquisa e nas técnicas que as famílias brasileiras passaram de geração em geração, a fórmula OMO Herança combina poder de limpeza superior com delicadeza para os tecidos. Do barro das brincadeiras de criança ao vermelho do molho de tomate, nada fica para trás.',
     icon: <HeritageIcon />,
     span: 'col-span-12',
-    accentBg: 'linear-gradient(135deg, #f0f4ff 0%, #e8f0ff 100%)',
-    accentColor: '#0033A0',
+    accentBg: 'linear-gradient(135deg, #FFFFF0 0%, #F5E5BE 100%)',
+    accentColor: '#111934',
   },
 ]
 
@@ -57,7 +57,7 @@ export default function BentoGrid() {
       id="features"
       style={{
         padding: '120px 24px',
-        background: '#fff',
+        background: 'linear-gradient(180deg, #FFFFF0 0%, #FAF6E6 100%)',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -66,7 +66,7 @@ export default function BentoGrid() {
       <div style={{
         position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
         width: '900px', height: '2px',
-        background: 'linear-gradient(90deg, transparent 0%, rgba(0,51,160,0.15) 30%, rgba(229,35,32,0.15) 70%, transparent 100%)',
+        background: 'linear-gradient(90deg, transparent 0%, rgba(17,25,52,0.15) 30%, rgba(229,35,32,0.15) 70%, transparent 100%)',
       }} />
 
       <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative' }}>
@@ -85,11 +85,11 @@ export default function BentoGrid() {
             fontSize: 'clamp(28px, 5vw, 54px)',
             fontWeight: 900,
             letterSpacing: '-0.04em',
-            color: '#001240',
+            color: '#111934',
             lineHeight: 1.08,
           }}>
             O que torna OMO Herança{' '}
-            <span style={{ color: '#0033A0' }}>único.</span>
+            <span style={{ color: '#E52320' }}>único.</span>
           </h2>
         </div>
 
@@ -170,17 +170,17 @@ function BentoCard({
       onMouseLeave={() => setHovered(false)}
       style={{
         gridColumn,
-        background: '#fff',
+        background: '#FFFFF0',
         border: hovered
-          ? `1.5px solid ${feature.accentColor}30`
-          : '1.5px solid rgba(0,51,160,0.07)',
+          ? `1.5px solid ${feature.accentColor}`
+          : '1.5px solid #111934',
         borderRadius: '20px',
         padding: '32px',
         cursor: 'pointer',
         transition: 'all 0.3s cubic-bezier(0.4,0,0.2,1)',
         boxShadow: hovered
-          ? `0 12px 48px ${feature.accentColor}18`
-          : '0 2px 16px rgba(0,51,160,0.05)',
+          ? `0 12px 48px rgba(17,25,52,0.12)`
+          : '0 2px 16px rgba(17,25,52,0.04)',
         display: horizontal ? 'flex' : 'block',
         gap: horizontal ? '48px' : undefined,
         alignItems: horizontal ? 'center' : undefined,
@@ -206,8 +206,8 @@ function BentoCard({
         width: '52px',
         height: '52px',
         borderRadius: '15px',
-        background: hovered ? feature.accentBg : '#f4f7ff',
-        border: `1px solid ${feature.accentColor}20`,
+        background: hovered ? feature.accentBg : '#FAF6E6',
+        border: `1px solid rgba(17,25,52,0.15)`,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -235,7 +235,7 @@ function BentoCard({
           fontSize: '20px',
           fontWeight: 800,
           letterSpacing: '-0.03em',
-          color: '#001240',
+          color: '#111934',
           lineHeight: 1.2,
           marginBottom: '12px',
         }}>
@@ -243,7 +243,7 @@ function BentoCard({
         </h3>
         <p style={{
           fontSize: '14px',
-          color: 'rgba(0,19,64,0.55)',
+          color: 'rgba(17,25,52,0.7)',
           lineHeight: 1.7,
           letterSpacing: '-0.01em',
           maxWidth: horizontal ? '600px' : undefined,
@@ -271,7 +271,7 @@ function BentoCard({
           display: 'inline-flex',
           width: '28px', height: '28px',
           borderRadius: '50%',
-          border: `1.5px solid ${feature.accentColor}40`,
+          border: `1.5px solid ${feature.accentColor}`,
           alignItems: 'center', justifyContent: 'center',
           transform: hovered ? 'translateX(4px)' : 'none',
           transition: 'transform 0.2s ease',
@@ -308,7 +308,7 @@ function ExpandedOverlay({
         alignItems: 'center',
         justifyContent: 'center',
         padding: '24px',
-        background: 'rgba(0,10,40,0.6)',
+        background: 'rgba(17,25,52,0.6)',
         backdropFilter: 'blur(8px)',
         WebkitBackdropFilter: 'blur(8px)',
         animation: 'fade-in 0.25s ease forwards',
@@ -317,15 +317,16 @@ function ExpandedOverlay({
     >
       <div
         style={{
-          background: '#fff',
+          background: '#FFFFF0',
           borderRadius: '28px',
           padding: 'clamp(32px, 5vw, 60px)',
           maxWidth: '680px',
           width: '100%',
           maxHeight: '90vh',
           overflowY: 'auto',
-          boxShadow: '0 40px 120px rgba(0,19,64,0.3)',
+          boxShadow: '0 40px 120px rgba(17,25,52,0.2)',
           animation: 'scale-in 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards',
+          border: '1.5px solid #111934',
         }}
         onClick={e => e.stopPropagation()}
       >
@@ -340,7 +341,7 @@ function ExpandedOverlay({
             width: '60px', height: '60px',
             borderRadius: '17px',
             background: feature.accentBg,
-            border: `1.5px solid ${feature.accentColor}25`,
+            border: `1.5px solid rgba(17,25,52,0.2)`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             flexShrink: 0,
           }}>
@@ -350,19 +351,19 @@ function ExpandedOverlay({
             <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: feature.accentColor, marginBottom: '4px' }}>
               {feature.tag}
             </div>
-            <h2 style={{ fontSize: '22px', fontWeight: 800, letterSpacing: '-0.03em', color: '#001240', lineHeight: 1.2 }}>
+            <h2 style={{ fontSize: '22px', fontWeight: 800, letterSpacing: '-0.03em', color: '#111934', lineHeight: 1.2 }}>
               {feature.title}
             </h2>
           </div>
         </div>
 
         {/* Divider */}
-        <div style={{ height: '1px', background: 'rgba(0,51,160,0.08)', marginBottom: '28px' }} />
+        <div style={{ height: '1px', background: 'rgba(17,25,52,0.12)', marginBottom: '28px' }} />
 
         {/* Full text */}
         <p style={{
           fontSize: '16px',
-          color: 'rgba(0,19,64,0.65)',
+          color: 'rgba(17,25,52,0.75)',
           lineHeight: 1.8,
           letterSpacing: '-0.01em',
           marginBottom: '36px',
@@ -374,7 +375,7 @@ function ExpandedOverlay({
         <button
           className="btn-blue"
           onClick={onClose}
-          style={{ padding: '14px 32px', fontSize: '14px' }}
+          style={{ padding: '14px 32px', fontSize: '14px', cursor: 'pointer' }}
         >
           Fechar
         </button>
@@ -386,15 +387,15 @@ function ExpandedOverlay({
 function MicrocapsuleIcon() {
   return (
     <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
-      <circle cx="13" cy="13" r="5" stroke="#0033A0" strokeWidth="1.8" />
-      <circle cx="13" cy="4" r="2.5" fill="rgba(0,51,160,0.15)" stroke="#0033A0" strokeWidth="1.2" />
-      <circle cx="22" cy="13" r="2.5" fill="rgba(0,51,160,0.15)" stroke="#0033A0" strokeWidth="1.2" />
-      <circle cx="13" cy="22" r="2.5" fill="rgba(0,51,160,0.15)" stroke="#0033A0" strokeWidth="1.2" />
-      <circle cx="4" cy="13" r="2.5" fill="rgba(0,51,160,0.15)" stroke="#0033A0" strokeWidth="1.2" />
-      <line x1="13" y1="9" x2="13" y2="6.5" stroke="#0033A0" strokeWidth="1.2" strokeLinecap="round" />
-      <line x1="17" y1="13" x2="19.5" y2="13" stroke="#0033A0" strokeWidth="1.2" strokeLinecap="round" />
-      <line x1="13" y1="17" x2="13" y2="19.5" stroke="#0033A0" strokeWidth="1.2" strokeLinecap="round" />
-      <line x1="9" y1="13" x2="6.5" y2="13" stroke="#0033A0" strokeWidth="1.2" strokeLinecap="round" />
+      <circle cx="13" cy="13" r="5" stroke="#111934" strokeWidth="1.8" />
+      <circle cx="13" cy="4" r="2.5" fill="rgba(17,25,52,0.15)" stroke="#111934" strokeWidth="1.2" />
+      <circle cx="22" cy="13" r="2.5" fill="rgba(17,25,52,0.15)" stroke="#111934" strokeWidth="1.2" />
+      <circle cx="13" cy="22" r="2.5" fill="rgba(17,25,52,0.15)" stroke="#111934" strokeWidth="1.2" />
+      <circle cx="4" cy="13" r="2.5" fill="rgba(17,25,52,0.15)" stroke="#111934" strokeWidth="1.2" />
+      <line x1="13" y1="9" x2="13" y2="6.5" stroke="#111934" strokeWidth="1.2" strokeLinecap="round" />
+      <line x1="17" y1="13" x2="19.5" y2="13" stroke="#111934" strokeWidth="1.2" strokeLinecap="round" />
+      <line x1="13" y1="17" x2="13" y2="19.5" stroke="#111934" strokeWidth="1.2" strokeLinecap="round" />
+      <line x1="9" y1="13" x2="6.5" y2="13" stroke="#111934" strokeWidth="1.2" strokeLinecap="round" />
     </svg>
   )
 }
@@ -413,8 +414,8 @@ function HeritageIcon() {
   return (
     <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
       <path d="M13 2L15.5 9.5H23.5L17 14.5L19.5 22L13 17L6.5 22L9 14.5L2.5 9.5H10.5Z"
-        stroke="#0033A0" strokeWidth="1.5" strokeLinejoin="round"
-        fill="rgba(0,51,160,0.08)" />
+        stroke="#111934" strokeWidth="1.5" strokeLinejoin="round"
+        fill="rgba(17,25,52,0.08)" />
     </svg>
   )
 }

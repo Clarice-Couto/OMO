@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
+import { Video, UploadCloud, Trash2, CheckCircle, AlertCircle } from 'lucide-react'
 import familyPhoto from '@/imports/familia (1).jpeg'
+import { videoValidationSchema } from '../validation/schema'
 
 type Step = 0 | 1 | 2 | 3
 type Confetto = { id: number; x: number; color: string; size: number; delay: number; duration: number; rotate: number }
 
-type PromoCardProps = { onRegulation: () => void }
+type PromoCardProps = {
+  onRegulation: () => void
+}
 
 // Helper formatting functions
 const formatCPF = (value: string) => {
@@ -37,8 +41,12 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
   const [invoiceFileName, setInvoiceFileName] = useState('')
   const [invoiceError, setInvoiceError] = useState(false)
 
-  // Step 3: Story
+  // Step 3: Story Text & Video Upload
   const [story, setStory] = useState('')
+  const [videoFile, setVideoFile] = useState<File | null>(null)
+  const [videoProgress, setVideoProgress] = useState(0)
+  const [videoError, setVideoError] = useState<string | null>(null)
+  const [isDragging, setIsDragging] = useState(false)
 
   const [loading, setLoading] = useState(false)
   const [confetti, setConfetti] = useState<Confetto[]>([])
@@ -63,7 +71,7 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
   }, [])
 
   const spawnConfetti = () => {
-    const colors = ['#0033A0', '#E52320', '#ffffff', '#4488ff', '#ff6b6b', '#ffd700']
+    const colors = ['#111934', '#E52320', '#F5E5BE', '#4488ff', '#ffd700']
     const pieces: Confetto[] = Array.from({ length: 48 }, (_, i) => ({
       id: i,
       x: 10 + Math.random() * 80,
@@ -96,6 +104,13 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
     return cleanKey.length === 44;
   };
 
+  const isStep2Valid = () => {
+    // Valid if either story is provided (min 20 chars) OR a video is uploaded without errors
+    const hasValidStory = story.trim().length >= 20;
+    const hasValidVideo = videoFile !== null && videoProgress === 100 && !videoError;
+    return (hasValidStory || hasValidVideo) && !videoError;
+  };
+
   const handleRegisterUser = () => {
     if (!isStep0Valid()) return;
     setStep(1);
@@ -113,9 +128,75 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
     setStep(2);
   };
 
+  // Video Upload Simulation & Validation
+  const processVideoFile = (file: File) => {
+    setVideoError(null);
+    setVideoProgress(0);
+
+    // 1. Zod Schema Validation
+    const validationResult = videoValidationSchema.safeParse({ videoFile: file });
+    if (!validationResult.success) {
+      setVideoError(validationResult.error.errors[0].message);
+      return;
+    }
+
+    // 2. Duration Validation (Max 1 minute / 60 seconds)
+    const video = document.createElement('video');
+    video.preload = 'metadata';
+    video.onloadedmetadata = () => {
+      window.URL.revokeObjectURL(video.src);
+      if (video.duration > 60) {
+        setVideoError('O vídeo deve ter no máximo 1 minuto de duração.');
+        setVideoFile(null);
+        setVideoProgress(0);
+      } else {
+        // Valid file, start progress bar animation
+        setVideoFile(file);
+        simulateVideoUpload();
+      }
+    };
+    video.src = URL.createObjectURL(file);
+  };
+
+  const simulateVideoUpload = () => {
+    let currentProgress = 0;
+    const interval = setInterval(() => {
+      currentProgress += 10;
+      setVideoProgress(currentProgress);
+      if (currentProgress >= 100) {
+        clearInterval(interval);
+      }
+    }, 150);
+  };
+
+  const handleRemoveVideo = () => {
+    setVideoFile(null);
+    setVideoProgress(0);
+    setVideoError(null);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      processVideoFile(file);
+    }
+  };
+
   const handleSubmitStory = async () => {
-    if (story.trim().length < 20) return;
+    if (!isStep2Valid()) return;
     setLoading(true);
+    // Simulate database submission (e.g. Postgres on Render)
     await new Promise(r => setTimeout(r, 1800));
     setLoading(false);
     setStep(3);
@@ -132,6 +213,9 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
     setInvoiceKey('');
     setInvoiceFileName('');
     setStory('');
+    setVideoFile(null);
+    setVideoProgress(0);
+    setVideoError(null);
   };
 
   return (
@@ -139,7 +223,7 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
       id="promo"
       style={{
         padding: '120px 24px',
-        background: 'linear-gradient(180deg, #f0f7ff 0%, #ffffff 50%, #f8fbff 100%)',
+        background: 'linear-gradient(180deg, #FFFFF0 0%, #FAF6E6 50%, #F5E5BE 100%)',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -148,7 +232,7 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
       <div style={{
         position: 'absolute', top: '-80px', left: '50%', transform: 'translateX(-50%)',
         width: '900px', height: '400px',
-        background: 'radial-gradient(ellipse, rgba(0,51,160,0.06) 0%, transparent 70%)',
+        background: 'radial-gradient(ellipse, rgba(17,25,52,0.06) 0%, transparent 70%)',
         pointerEvents: 'none',
       }} />
 
@@ -163,16 +247,16 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
         }}>
           <div style={{
             fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em',
-            textTransform: 'uppercase', color: '#E52320', marginBottom: '16px',
+            textTransform: 'uppercase', color: '#111934', marginBottom: '16px',
           }}>
             Campanha Herança 2026
           </div>
           <h2 style={{
             fontSize: 'clamp(28px, 4.5vw, 54px)', fontWeight: 900,
-            letterSpacing: '-0.04em', color: '#001240', lineHeight: 1.08,
+            letterSpacing: '-0.04em', color: '#111934', lineHeight: 1.08,
           }}>
             Eternize sua memória{' '}
-            <span style={{ color: '#0033A0' }}>de cuidado.</span>
+            <span style={{ color: '#E52320' }}>de cuidado.</span>
           </h2>
         </div>
 
@@ -192,10 +276,10 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
         >
           {/* Main card */}
           <div style={{
-            background: '#fff',
+            background: '#FFFFF0',
             borderRadius: '24px',
-            boxShadow: '0 2px 6px rgba(0,51,160,0.06), 0 16px 60px rgba(0,51,160,0.1)',
-            border: '1px solid rgba(0,51,160,0.08)',
+            boxShadow: '0 2px 6px rgba(17,25,52,0.04), 0 16px 60px rgba(17,25,52,0.08)',
+            border: '1.5px solid #111934',
             overflow: 'hidden',
             position: 'relative',
           }}>
@@ -221,7 +305,7 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
             {/* Step indicator bar */}
             <div style={{
               height: '4px',
-              background: '#f0f4ff',
+              background: '#FAF6E6',
               display: 'flex',
               gap: '2px',
               padding: '0 2px',
@@ -230,9 +314,9 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
                 <div key={i} style={{
                   flex: 1,
                   height: '100%',
-                  background: i <= step ? '#0033A0' : 'transparent',
+                  background: i <= step ? '#111934' : 'transparent',
                   transition: 'background 0.5s cubic-bezier(0.25,1,0.5,1)',
-                  boxShadow: i === step ? '0 0 8px rgba(0,51,160,0.5)' : 'none',
+                  boxShadow: i === step ? '0 0 8px rgba(17,25,52,0.3)' : 'none',
                 }} />
               ))}
             </div>
@@ -261,8 +345,8 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
                         onChange={e => setFullName(e.target.value)}
                         placeholder="Nome Sobrenome"
                         style={inputStyle}
-                        onFocus={e => { e.currentTarget.style.borderColor = '#0033A0'; e.currentTarget.style.boxShadow = '0 0 0 4px rgba(0,51,160,0.1)' }}
-                        onBlur={e => { e.currentTarget.style.borderColor = fullName ? '#0033A0' : 'rgba(0,51,160,0.15)'; e.currentTarget.style.boxShadow = 'none' }}
+                        onFocus={e => { e.currentTarget.style.borderColor = '#111934'; e.currentTarget.style.boxShadow = '0 0 0 4px rgba(17,25,52,0.1)' }}
+                        onBlur={e => { e.currentTarget.style.borderColor = fullName ? '#111934' : 'rgba(17,25,52,0.2)'; e.currentTarget.style.boxShadow = 'none' }}
                       />
                     </div>
                     <div>
@@ -273,8 +357,8 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
                         onChange={e => setEmail(e.target.value)}
                         placeholder="nome@email.com"
                         style={inputStyle}
-                        onFocus={e => { e.currentTarget.style.borderColor = '#0033A0'; e.currentTarget.style.boxShadow = '0 0 0 4px rgba(0,51,160,0.1)' }}
-                        onBlur={e => { e.currentTarget.style.borderColor = email ? '#0033A0' : 'rgba(0,51,160,0.15)'; e.currentTarget.style.boxShadow = 'none' }}
+                        onFocus={e => { e.currentTarget.style.borderColor = '#111934'; e.currentTarget.style.boxShadow = '0 0 0 4px rgba(17,25,52,0.1)' }}
+                        onBlur={e => { e.currentTarget.style.borderColor = email ? '#111934' : 'rgba(17,25,52,0.2)'; e.currentTarget.style.boxShadow = 'none' }}
                       />
                     </div>
                   </div>
@@ -288,8 +372,8 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
                         placeholder="000.000.000-00"
                         maxLength={14}
                         style={inputStyle}
-                        onFocus={e => { e.currentTarget.style.borderColor = '#0033A0'; e.currentTarget.style.boxShadow = '0 0 0 4px rgba(0,51,160,0.1)' }}
-                        onBlur={e => { e.currentTarget.style.borderColor = cpf ? '#0033A0' : 'rgba(0,51,160,0.15)'; e.currentTarget.style.boxShadow = 'none' }}
+                        onFocus={e => { e.currentTarget.style.borderColor = '#111934'; e.currentTarget.style.boxShadow = '0 0 0 4px rgba(17,25,52,0.1)' }}
+                        onBlur={e => { e.currentTarget.style.borderColor = cpf ? '#111934' : 'rgba(17,25,52,0.2)'; e.currentTarget.style.boxShadow = 'none' }}
                       />
                     </div>
                     <div>
@@ -300,26 +384,26 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
                         placeholder="(00) 00000-0000"
                         maxLength={15}
                         style={inputStyle}
-                        onFocus={e => { e.currentTarget.style.borderColor = '#0033A0'; e.currentTarget.style.boxShadow = '0 0 0 4px rgba(0,51,160,0.1)' }}
-                        onBlur={e => { e.currentTarget.style.borderColor = phone ? '#0033A0' : 'rgba(0,51,160,0.15)'; e.currentTarget.style.boxShadow = 'none' }}
+                        onFocus={e => { e.currentTarget.style.borderColor = '#111934'; e.currentTarget.style.boxShadow = '0 0 0 4px rgba(17,25,52,0.1)' }}
+                        onBlur={e => { e.currentTarget.style.borderColor = phone ? '#111934' : 'rgba(17,25,52,0.2)'; e.currentTarget.style.boxShadow = 'none' }}
                       />
                     </div>
                   </div>
 
                   {/* Checkbox 1 */}
-                  <label style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', cursor: 'pointer', fontSize: '13px', color: 'rgba(0,19,64,0.7)', lineHeight: 1.5, marginBottom: '28px' }}>
+                  <label style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', cursor: 'pointer', fontSize: '13px', color: '#111934', lineHeight: 1.5, marginBottom: '28px' }}>
                     <input
                       type="checkbox"
                       checked={termsAccepted}
                       onChange={e => setTermsAccepted(e.target.checked)}
-                      style={{ width: '18px', height: '18px', accentColor: '#0033A0', marginTop: '2px', cursor: 'pointer' }}
+                      style={{ width: '18px', height: '18px', accentColor: '#111934', marginTop: '2px', cursor: 'pointer' }}
                     />
                     <span>
                       Declaro que sou maior de 18 anos e li e concordo com o{' '}
                       <button
                         type="button"
                         onClick={onRegulation}
-                        style={{ background: 'none', border: 'none', color: '#0033A0', cursor: 'pointer', padding: 0, textDecoration: 'underline', fontFamily: 'inherit', fontWeight: 600 }}
+                        style={{ background: 'none', border: 'none', color: '#111934', cursor: 'pointer', padding: 0, textDecoration: 'underline', fontFamily: 'inherit', fontWeight: 600 }}
                       >
                         Regulamento da Promoção
                       </button>{' '}
@@ -354,16 +438,16 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
                       maxLength={44}
                       style={{
                         ...inputStyle,
-                        borderColor: invoiceError ? '#E52320' : (invoiceKey.length === 44 ? '#0033A0' : 'rgba(0,51,160,0.15)'),
+                        borderColor: invoiceError ? '#E52320' : (invoiceKey.length === 44 ? '#111934' : 'rgba(17,25,52,0.2)'),
                         boxShadow: invoiceError
                           ? '0 0 0 3px rgba(229,35,32,0.15)'
-                          : invoiceKey.length === 44 ? '0 0 0 3px rgba(0,51,160,0.08)' : 'none',
+                          : invoiceKey.length === 44 ? '0 0 0 3px rgba(17,25,52,0.08)' : 'none',
                         animation: invoiceError ? 'shake 0.3s ease' : 'none',
                       }}
-                      onFocus={e => { e.currentTarget.style.borderColor = '#0033A0'; e.currentTarget.style.boxShadow = '0 0 0 4px rgba(0,51,160,0.1)' }}
-                      onBlur={e => { e.currentTarget.style.borderColor = invoiceKey ? '#0033A0' : 'rgba(0,51,160,0.15)'; e.currentTarget.style.boxShadow = 'none' }}
+                      onFocus={e => { e.currentTarget.style.borderColor = '#111934'; e.currentTarget.style.boxShadow = '0 0 0 4px rgba(17,25,52,0.1)' }}
+                      onBlur={e => { e.currentTarget.style.borderColor = invoiceKey ? '#111934' : 'rgba(17,25,52,0.2)'; e.currentTarget.style.boxShadow = 'none' }}
                     />
-                    <div style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', fontSize: '12px', color: 'rgba(0,51,160,0.4)', fontWeight: 600 }}>
+                    <div style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', fontSize: '12px', color: 'rgba(17,25,52,0.4)', fontWeight: 600 }}>
                       {invoiceKey.length}/44
                     </div>
                   </div>
@@ -374,11 +458,11 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
                     <div
                       onClick={() => document.getElementById('cupom-upload')?.click()}
                       style={{
-                        border: '2px dashed rgba(0,51,160,0.2)',
+                        border: '2px dashed rgba(17,25,52,0.3)',
                         borderRadius: '14px',
                         padding: '24px 16px',
                         textAlign: 'center',
-                        background: '#fafbff',
+                        background: '#FAF6E6',
                         cursor: 'pointer',
                         transition: 'all 0.2s ease',
                       }}
@@ -398,7 +482,7 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
                       {invoiceFileName ? (
                         <div>
                           <div style={{ fontSize: '24px', marginBottom: '8px' }}>📄</div>
-                          <div style={{ fontSize: '14px', fontWeight: 600, color: '#0033A0', wordBreak: 'break-all' }}>{invoiceFileName}</div>
+                          <div style={{ fontSize: '14px', fontWeight: 600, color: '#111934', wordBreak: 'break-all' }}>{invoiceFileName}</div>
                           <button
                             type="button"
                             onClick={(e) => {
@@ -422,8 +506,8 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
                       ) : (
                         <div>
                           <div style={{ fontSize: '28px', marginBottom: '8px' }}>📸</div>
-                          <div style={{ fontSize: '13px', fontWeight: 600, color: 'rgba(0,51,160,0.6)' }}>Clique para enviar foto do cupom</div>
-                          <div style={{ fontSize: '11px', color: 'rgba(0,19,64,0.4)', marginTop: '4px' }}>PNG, JPG ou PDF (Máx. 5MB)</div>
+                          <div style={{ fontSize: '13px', fontWeight: 600, color: '#111934' }}>Clique para enviar foto do cupom</div>
+                          <div style={{ fontSize: '11px', color: 'rgba(17,25,52,0.5)', marginTop: '4px' }}>PNG, JPG ou PDF (Máx. 5MB)</div>
                         </div>
                       )}
                     </div>
@@ -448,40 +532,164 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
                   </div>
                 </div>
 
-                {/* Panel 2: Story */}
+                {/* Panel 2: Story & Video Upload */}
                 <div className="promo-card-panel">
                   <StepLabel step={3} total={3} />
                   <h3 style={cardHeadStyle}>Sua história de cuidado</h3>
                   <p style={cardBodyStyle}>
-                    Qual memória afetiva você tem com OMO? O cheiro que transporta, o domingo de lavagem, o cuidado da sua mãe. Eternize aqui.
+                    Escreva sua memória afetiva com OMO ou envie um relato em vídeo de até 1 minuto para eternizar seu cuidado.
                   </p>
-                  <label style={labelStyle}>Sua Memória</label>
-                  <textarea
-                    value={story}
-                    onChange={e => setStory(e.target.value)}
-                    placeholder="Era um domingo de manhã, minha avó colocava as roupas brancas para lavar e o cheiro de OMO tomava toda a casa..."
-                    rows={6}
-                    style={{
-                      ...inputStyle,
-                      resize: 'vertical',
-                      minHeight: '130px',
-                      borderColor: 'rgba(0,51,160,0.15)',
-                    }}
-                    onFocus={e => { e.currentTarget.style.borderColor = '#0033A0'; e.currentTarget.style.boxShadow = '0 0 0 4px rgba(0,51,160,0.1)' }}
-                    onBlur={e => { e.currentTarget.style.borderColor = 'rgba(0,51,160,0.15)'; e.currentTarget.style.boxShadow = 'none' }}
-                  />
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', marginTop: '-4px' }}>
-                    <span style={{ fontSize: '12px', color: story.length < 20 ? '#E52320' : 'rgba(0,51,160,0.4)', fontWeight: 500 }}>
-                      {story.length} / mín. 20 caracteres
-                    </span>
-                    <button onClick={() => setStep(1)} style={{ fontSize: '12px', color: 'rgba(0,51,160,0.5)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
-                      ← Voltar
+                  
+                  {/* Traditional Text Area */}
+                  <div style={{ marginBottom: '20px' }}>
+                    <label style={labelStyle}>Sua Memória (Texto)</label>
+                    <textarea
+                      value={story}
+                      onChange={e => setStory(e.target.value)}
+                      placeholder="Era um domingo de manhã, minha avó colocava as roupas brancas para lavar..."
+                      rows={4}
+                      style={{
+                        ...inputStyle,
+                        resize: 'vertical',
+                        minHeight: '100px',
+                        borderColor: 'rgba(17,25,52,0.2)',
+                      }}
+                      onFocus={e => { e.currentTarget.style.borderColor = '#111934'; e.currentTarget.style.boxShadow = '0 0 0 4px rgba(17,25,52,0.1)' }}
+                      onBlur={e => { e.currentTarget.style.borderColor = 'rgba(17,25,52,0.2)'; e.currentTarget.style.boxShadow = 'none' }}
+                    />
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px' }}>
+                      <span style={{ fontSize: '11px', color: story.length > 0 && story.length < 20 ? '#E52320' : 'rgba(17,25,52,0.5)', fontWeight: 500 }}>
+                        {story.length} / mín. 20 caracteres
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Video Drag & Drop Upload Zone */}
+                  <div style={{ marginBottom: '24px' }}>
+                    <label style={labelStyle}>Relato em Vídeo (Drag & Drop)</label>
+                    
+                    {!videoFile ? (
+                      <div
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                        onClick={() => document.getElementById('video-upload')?.click()}
+                        style={{
+                          border: isDragging ? '2.5px dashed #E52320' : '2px dashed #111934',
+                          borderRadius: '16px',
+                          padding: '28px 20px',
+                          textAlign: 'center',
+                          background: isDragging ? '#F5E5BE' : '#FAF6E6',
+                          cursor: 'pointer',
+                          transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                        }}
+                      >
+                        <input
+                          id="video-upload"
+                          type="file"
+                          accept=".mp4,.mov,.webm"
+                          onChange={e => {
+                            const file = e.target.files?.[0];
+                            if (file) processVideoFile(file);
+                          }}
+                          style={{ display: 'none' }}
+                        />
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                          <div style={{
+                            width: '48px', height: '48px', borderRadius: '50%',
+                            background: 'rgba(17, 25, 52, 0.05)',
+                            display: 'flex', alignItems: 'center', justifyOrigin: 'center',
+                            color: '#111934', justifyContent: 'center'
+                          }}>
+                            <Video className="w-5 h-5" />
+                          </div>
+                          <div>
+                            <div style={{ fontSize: '13px', fontWeight: 700, color: '#111934' }}>
+                              Arraste seu vídeo aqui ou clique para selecionar
+                            </div>
+                            <div style={{ fontSize: '11px', color: 'rgba(17, 25, 52, 0.6)', marginTop: '4px' }}>
+                              Formatos: .mp4, .mov, .webm · Máx 50MB ou 1 min
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div style={{
+                        border: '2px solid #111934',
+                        borderRadius: '16px',
+                        padding: '20px',
+                        background: '#FAF6E6',
+                      }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', overflow: 'hidden' }}>
+                            <div style={{ color: '#111934', flexShrink: 0 }}>
+                              <Video className="w-6 h-6 animate-pulse" />
+                            </div>
+                            <div style={{ overflow: 'hidden' }}>
+                              <div style={{ fontSize: '13px', fontWeight: 700, color: '#111934', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                                {videoFile.name}
+                              </div>
+                              <div style={{ fontSize: '11px', color: 'rgba(17, 25, 52, 0.6)' }}>
+                                {(videoFile.size / (1024 * 1024)).toFixed(2)} MB
+                              </div>
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={handleRemoveVideo}
+                            style={{
+                              background: 'rgba(229, 35, 32, 0.1)',
+                              border: 'none',
+                              color: '#E52320',
+                              padding: '8px',
+                              borderRadius: '50%',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              transition: 'all 0.2s ease',
+                            }}
+                            title="Remover Vídeo"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+
+                        {/* Progress Bar Container */}
+                        <div>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11px', fontWeight: 700, color: '#111934', marginBottom: '6px' }}>
+                            <span>{videoProgress < 100 ? 'Enviando para o Render...' : 'Envio Concluído!'}</span>
+                            <span>{videoProgress}%</span>
+                          </div>
+                          <div style={{ height: '6px', background: 'rgba(17, 25, 52, 0.1)', borderRadius: '100px', overflow: 'hidden' }}>
+                            <div style={{
+                              height: '100%',
+                              width: `${videoProgress}%`,
+                              background: videoProgress < 100 ? '#111934' : '#008060',
+                              transition: 'width 0.15s ease-out, background-color 0.3s ease',
+                            }} />
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {videoError && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '8px', color: '#E52320', fontSize: '12px', fontWeight: 600 }}>
+                        <AlertCircle className="w-4 h-4" /> {videoError}
+                      </div>
+                    )}
+                  </div>
+
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                    <button onClick={() => setStep(1)} style={{ fontSize: '12px', color: 'rgba(17,25,52,0.6)', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600, fontFamily: 'Inter, sans-serif' }}>
+                      ← Voltar para Nota Fiscal
                     </button>
                   </div>
+
                   <button
                     className="btn-red"
                     onClick={handleSubmitStory}
-                    disabled={story.length < 20 || loading}
+                    disabled={!isStep2Valid() || loading}
                     style={{ width: '100%', padding: '18px', fontSize: '15px', position: 'relative' }}
                   >
                     {loading ? <LoadingSpinner /> : 'Concluir Inscrição e Gerar Número da Sorte'}
@@ -502,20 +710,20 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
                   </p>
                   {/* Lucky number */}
                   <div style={{
-                    background: 'linear-gradient(135deg, #f0f4ff 0%, #e8f0ff 100%)',
-                    border: '1px solid rgba(0,51,160,0.12)',
+                    background: 'linear-gradient(135deg, #FAF6E6 0%, #F5E5BE 100%)',
+                    border: '1.5px solid #111934',
                     borderRadius: '16px',
                     padding: '20px',
                     marginBottom: '28px',
                   }}>
-                    <div style={{ fontSize: '11px', color: 'rgba(0,51,160,0.5)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                    <div style={{ fontSize: '11px', color: 'rgba(17,25,52,0.6)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '6px' }}>
                       Seu Número da Sorte
                     </div>
                     <div style={{
                       fontSize: '28px',
                       fontWeight: 900,
                       letterSpacing: '0.05em',
-                      color: '#0033A0',
+                      color: '#111934',
                       fontFamily: 'Inter, sans-serif',
                     }}>
                       #{luckyNumber}
@@ -539,18 +747,19 @@ export default function PromoCard({ onRegulation }: PromoCardProps) {
             className="promo-sidebar"
           >
             <div style={{
-              background: 'linear-gradient(135deg, #0033A0, #001f6b)',
+              background: 'linear-gradient(135deg, #111934, #0d1326)',
               borderRadius: '20px',
               padding: '24px',
-              color: '#fff',
+              color: '#FFFFF0',
+              border: '1px solid rgba(255,255,240,0.1)',
             }}>
-              <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: '12px' }}>
+              <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,240,0.6)', marginBottom: '12px' }}>
                 História OMO
               </div>
               <div style={{ fontSize: '18px', fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.25, marginBottom: '8px' }}>
                 Eternize sua Memória
               </div>
-              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', lineHeight: 1.4 }}>
+              <div style={{ fontSize: '12px', color: 'rgba(255,255,240,0.5)', lineHeight: 1.4 }}>
                 Compartilhe o cuidado que atravessa gerações e faça parte do acervo OMO Herança.
               </div>
             </div>
@@ -600,14 +809,14 @@ const cardHeadStyle: React.CSSProperties = {
   fontSize: '24px',
   fontWeight: 800,
   letterSpacing: '-0.03em',
-  color: '#001240',
+  color: '#111934',
   marginBottom: '12px',
   lineHeight: 1.2,
 }
 
 const cardBodyStyle: React.CSSProperties = {
   fontSize: '14px',
-  color: 'rgba(0,19,64,0.55)',
+  color: 'rgba(17,25,52,0.65)',
   lineHeight: 1.7,
   letterSpacing: '-0.01em',
   marginBottom: '28px',
@@ -619,17 +828,17 @@ const labelStyle: React.CSSProperties = {
   fontWeight: 700,
   letterSpacing: '0.1em',
   textTransform: 'uppercase' as const,
-  color: 'rgba(0,51,160,0.5)',
+  color: 'rgba(17,25,52,0.6)',
   marginBottom: '10px',
 }
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
   padding: '16px 18px',
-  background: '#fafbff',
-  border: '1.5px solid rgba(0,51,160,0.15)',
+  background: '#FFFFF0',
+  border: '1.5px solid rgba(17,25,52,0.2)',
   borderRadius: '14px',
-  color: '#001240',
+  color: '#111934',
   fontFamily: 'Inter, sans-serif',
   fontSize: '16px',
   fontWeight: 600,
@@ -671,18 +880,18 @@ function SuccessCheck() {
       width: '80px',
       height: '80px',
       borderRadius: '50%',
-      background: 'linear-gradient(135deg, #f0f7ff 0%, #e0ecff 100%)',
-      border: '2px solid #0033A0',
+      background: 'linear-gradient(135deg, #FAF6E6 0%, #F5E5BE 100%)',
+      border: '2.5px solid #111934',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       animation: 'check-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards',
-      boxShadow: '0 8px 32px rgba(0,51,160,0.2)',
+      boxShadow: '0 8px 32px rgba(17,25,52,0.15)',
     }}>
       <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
         <path
           d="M9 20L16 27L29 12"
-          stroke="#0033A0"
+          stroke="#111934"
           strokeWidth="3"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -697,14 +906,14 @@ function SuccessCheck() {
 function ProductSideCard() {
   return (
     <div style={{
-      background: '#fff',
-      border: '1px solid rgba(0,51,160,0.08)',
+      background: '#FFFFF0',
+      border: '1.5px solid #111934',
       borderRadius: '20px',
       overflow: 'hidden',
-      boxShadow: '0 4px 24px rgba(0,51,160,0.07)',
+      boxShadow: '0 4px 24px rgba(17,25,52,0.05)',
       width: '100%',
     }}>
-      <div style={{ background: 'linear-gradient(135deg, #f0f4ff, #e8efff)', padding: '0px', height: '220px', overflow: 'hidden', display: 'flex', justifyContent: 'center' }}>
+      <div style={{ background: 'linear-gradient(135deg, #FAF6E6, #F5E5BE)', padding: '0px', height: '220px', overflow: 'hidden', display: 'flex', justifyContent: 'center' }}>
         <img
           src={familyPhoto}
           alt="Família OMO"

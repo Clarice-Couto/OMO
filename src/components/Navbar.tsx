@@ -10,6 +10,7 @@ type NavbarProps = {
   onBack: () => void
   onCampaign: () => void
   onHeritage: () => void
+  onTips: () => void
 }
 
 const mainLinks = [
@@ -17,6 +18,7 @@ const mainLinks = [
   { label: 'Herança', href: '#origin' },
   { label: 'Produtos', href: '#products-link' },
   { label: 'Regulamento', href: '#regulation' },
+  { label: 'Dicas', href: '/dicas' },
 ]
 
 export default function Navbar({
@@ -24,9 +26,10 @@ export default function Navbar({
   onProducts,
   onRegulation,
   currentPage,
-  onBack: _onBack,
+  onBack,
   onCampaign,
   onHeritage,
+  onTips,
 }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false)
   const [activeLink, setActiveLink] = useState('Campanha')
@@ -35,8 +38,7 @@ export default function Navbar({
   useEffect(() => {
     const onScroll = () => {
       const scrollY = window.scrollY
-      const threshold = currentPage === 'main' ? 700 : 300
-      setScrolled(scrollY > threshold)
+      setScrolled(scrollY > 80)
 
       if (currentPage === 'main') {
         if (scrollY < 650) {
@@ -48,6 +50,8 @@ export default function Navbar({
         setActiveLink('Produtos')
       } else if (currentPage === 'regulation') {
         setActiveLink('Regulamento')
+      } else if (currentPage === 'tips') {
+        setActiveLink('Dicas')
       }
     }
     onScroll()
@@ -66,9 +70,6 @@ export default function Navbar({
     }
   }, [menuOpen])
 
-  // On hero (blue top): white text. After scroll into white section: blue text.
-  const isDark = !scrolled
-
   return (
     <header style={{
       position: 'fixed',
@@ -76,12 +77,12 @@ export default function Navbar({
       zIndex: 200,
       transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
       background: scrolled
-        ? 'rgba(255,255,255,0.88)'
-        : 'transparent',
-      backdropFilter: scrolled ? 'blur(20px)' : 'none',
-      WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
-      borderBottom: scrolled ? '1px solid rgba(0,51,160,0.1)' : 'none',
-      boxShadow: scrolled ? '0 2px 24px rgba(0,51,160,0.08)' : 'none',
+        ? 'rgba(255,255,240,0.92)'
+        : 'rgba(255,255,240,0.5)',
+      backdropFilter: 'blur(20px)',
+      WebkitBackdropFilter: 'blur(20px)',
+      borderBottom: scrolled ? '1px solid rgba(17,25,52,0.1)' : '1px solid rgba(17,25,52,0.05)',
+      boxShadow: scrolled ? '0 2px 24px rgba(17,25,52,0.06)' : 'none',
     }}>
       <div className="nav-container" style={{
         maxWidth: '1200px',
@@ -99,7 +100,7 @@ export default function Navbar({
             height: '54px',
             borderRadius: '12px',
             overflow: 'hidden',
-            background: isDark ? 'transparent' : '#0033A0',
+            background: '#111934',
             flexShrink: 0,
             transition: 'all 0.3s ease',
           }}>
@@ -110,14 +111,14 @@ export default function Navbar({
             />
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <OmoWordmark color={isDark ? 'white' : '#0033A0'} />
+            <OmoWordmark color="#111934" />
             <span className="nav-heranca-label" style={{
               fontSize: '13px',
               fontWeight: 700,
               letterSpacing: '0.12em',
               textTransform: 'uppercase',
-              color: isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,51,160,0.5)',
-              borderLeft: `2px solid ${isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,51,160,0.2)'}`,
+              color: 'rgba(17,25,52,0.6)',
+              borderLeft: '2px solid rgba(17,25,52,0.2)',
               paddingLeft: '14px',
             }}>
               Herança
@@ -129,10 +130,10 @@ export default function Navbar({
         <nav className="nav-desktop-pill" style={{
           alignItems: 'center',
           gap: '2px',
-          background: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,51,160,0.06)',
+          background: 'rgba(17,25,52,0.04)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
-          border: `1px solid ${isDark ? 'rgba(255,255,255,0.18)' : 'rgba(0,51,160,0.12)'}`,
+          border: '1px solid rgba(17,25,52,0.08)',
           borderRadius: '100px',
           padding: '5px 6px',
         }}>
@@ -143,23 +144,30 @@ export default function Navbar({
                 setActiveLink(link.label)
                 if (link.label === 'Regulamento') onRegulation()
                 else if (link.label === 'Produtos') onProducts()
-                else if (link.label === 'Campanha') onCampaign()
-                else if (link.label === 'Herança') onHeritage()
+                else if (link.label === 'Dicas') onTips()
+                else if (link.label === 'Campanha') {
+                  onBack();
+                  onCampaign();
+                }
+                else if (link.label === 'Herança') {
+                  onBack();
+                  onHeritage();
+                }
               }}
               style={{
                 padding: '7px 18px',
                 borderRadius: '100px',
                 fontSize: '13px',
-                fontWeight: activeLink === link.label ? 600 : 400,
+                fontWeight: activeLink === link.label ? 700 : 500,
                 color: activeLink === link.label
-                  ? (isDark ? '#fff' : '#0033A0')
-                  : (isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,51,160,0.55)'),
+                  ? '#FFFFF0'
+                  : 'rgba(17,25,52,0.7)',
                 background: activeLink === link.label
-                  ? (isDark ? 'rgba(255,255,255,0.18)' : 'rgba(0,51,160,0.1)')
+                  ? '#111934'
                   : 'transparent',
                 border: 'none',
                 cursor: 'pointer',
-                transition: 'all 0.2s ease',
+                transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
                 fontFamily: 'Inter, sans-serif',
                 letterSpacing: '-0.01em',
               }}>
@@ -173,7 +181,7 @@ export default function Navbar({
           <button
             className="btn-red nav-desktop-btn"
             onClick={onParticipate}
-            style={{ padding: '11px 24px', fontSize: '13px', flexShrink: 0 }}
+            style={{ padding: '11px 24px', fontSize: '13px', flexShrink: 0, cursor: 'pointer' }}
           >
             Participar Agora
           </button>
@@ -186,7 +194,7 @@ export default function Navbar({
               border: 'none',
               cursor: 'pointer',
               padding: '8px',
-              color: isDark ? 'white' : '#0033A0',
+              color: '#111934',
               zIndex: 210,
               transition: 'transform 0.2s ease',
             }}
@@ -219,7 +227,7 @@ export default function Navbar({
           left: 0,
           right: 0,
           height: 'calc(100vh - 68px)',
-          background: scrolled ? 'rgba(255, 255, 255, 0.98)' : 'rgba(0, 31, 107, 0.98)',
+          background: 'rgba(255, 255, 240, 0.98)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
           zIndex: 190,
@@ -228,7 +236,7 @@ export default function Navbar({
           padding: '24px',
           gap: '16px',
           animation: 'fade-up 0.3s cubic-bezier(0.25, 1, 0.5, 1) forwards',
-          borderTop: scrolled ? '1px solid rgba(0,51,160,0.08)' : '1px solid rgba(255,255,255,0.08)',
+          borderTop: '1px solid rgba(17,25,52,0.08)',
         }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {mainLinks.map(link => (
@@ -239,8 +247,15 @@ export default function Navbar({
                   setActiveLink(link.label)
                   if (link.label === 'Regulamento') onRegulation()
                   else if (link.label === 'Produtos') onProducts()
-                  else if (link.label === 'Campanha') onCampaign()
-                  else if (link.label === 'Herança') onHeritage()
+                  else if (link.label === 'Dicas') onTips()
+                  else if (link.label === 'Campanha') {
+                    onBack();
+                    onCampaign();
+                  }
+                  else if (link.label === 'Herança') {
+                    onBack();
+                    onHeritage();
+                  }
                 }}
                 style={{
                   padding: '14px 20px',
@@ -248,9 +263,9 @@ export default function Navbar({
                   fontSize: '16px',
                   fontWeight: 600,
                   textAlign: 'left',
-                  color: scrolled ? '#0033A0' : '#fff',
+                  color: '#111934',
                   background: activeLink === link.label
-                    ? (scrolled ? 'rgba(0, 51, 160, 0.08)' : 'rgba(255, 255, 255, 0.15)')
+                    ? 'rgba(17, 25, 52, 0.08)'
                     : 'transparent',
                   border: 'none',
                   cursor: 'pointer',
